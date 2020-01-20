@@ -1,4 +1,4 @@
-import {Model, Schema, model} from 'mongoose';
+import {Model, Schema, model, Document} from 'mongoose';
 import {IUser} from '../interface/users';
 import {NextFunction} from 'express';
 
@@ -19,6 +19,10 @@ const phoneSchema: Schema = new Schema({
 	number: String,
 	verified: Boolean,
 });
+const tokenSchema:Schema = new Schema({
+	token: String,
+	createdAt: Date,
+});
 const userSchema: Schema = new Schema({
 	_id: Schema.Types.ObjectId,
 	email: [emailSchema],
@@ -34,6 +38,7 @@ const userSchema: Schema = new Schema({
 	phone: [phoneSchema],
 	pincode: String,
 	address: String,
+	tokens: [tokenSchema],
 	createdAt: Date,
 	createdBy: Schema.Types.ObjectId,
 	updatedAt: Date,
@@ -47,6 +52,5 @@ userSchema.pre('save', function(next: NextFunction): void{
 	}
 	next();
 });
-export interface IUserModel extends IUser{}
-const User: Model<IUserModel> = model<IUserModel>('User', userSchema);
-export default User;
+export interface IUserModel extends IUser, Document{}
+export const Users: Model<IUserModel> = model<IUserModel>('User', userSchema);
