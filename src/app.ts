@@ -15,7 +15,7 @@ app.use('/api/auth', loginRoute, signIn);
 app.use('/api/twite', twite);
 app.use((err: Error, req: Request, res: Response, next: NextFunction) : void=> {
 	if (err) {
-		console.log(err);
+		console.log(err, 'error');
 		res.json({
 			message: 'internal server error',
 		});

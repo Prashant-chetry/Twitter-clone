@@ -1,6 +1,6 @@
 import {Response, Request, NextFunction} from 'express';
 import jwt from 'jsonwebtoken';
-import {IUserModel} from '../db/collections/users';
+
 export default function(req: Request, res: Response, next: NextFunction): void {
 	const header: string = req.headers.authorization || '';
 	const token: string = header.replace('Bearer Token', '')?.trim();

@@ -3,6 +3,7 @@ import authController from '../middleware/authController';
 import {IUserModel, Users} from '../db/collections/users';
 import {Twites} from '../db/collections/twites';
 import {Types} from 'mongoose';
+import {IUser} from '../db/interface/users';
 
 const router: Router = Router(); // eslint-disable-line new-cap
 
@@ -39,6 +40,14 @@ router.get('/all/twiter', authController, async(req: Request, res: Response, nex
 	try {
 		const doc = await Twites.find({...filters});
 		res.json({data: doc});
+	}
+	catch (err) {next(err);}
+});
+router.delete('/twiter/:id', authController, async(req: Request, res: Response, next: NextFunction): Promise<void> => {
+	const {id} = req.params;
+	try {
+		const doc = await Twites.findByIdAndDelete({_id: id});
+		if (!Object.keys(doc || {})?.length) res.status(200).json('twite was deleted');
 	}
 	catch (err) {next(err);}
 });
